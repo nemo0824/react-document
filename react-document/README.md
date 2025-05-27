@@ -1,54 +1,35 @@
-# React + TypeScript + Vite
+## React가 컴포넌트와 hook 호출하는 방식
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React는 사용자 경험을 최적화하기 위해 필요할 때마다 컴포넌트와 hook을 렌더링하는 역할을 한다.
+"선언적"
 
-Currently, two official plugins are available:
+### 컴포넌트 함수를 직접 호출하지 말것
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React는 렌더링하는동안 컴포넌트 함수가 언제 호출될지 결정 JSX로 수행
+- 컴포넌트가 함수 이상의 역할을 하게됨
+- 컴포넌트 타입이 재조정 과정을 참여
+- React가 사용자 경험을 향상 시킬수있다.
+- 더 나은 디버깅 제공
+- 재조정 과정 효율적
 
-## Expanding the ESLint configuration
+### hook을 일반값 처럼 전달하지 말것
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 동적으로 변경하지말것.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## hook의 규칙
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### hook을 최상위 레벨에서만 호출
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### hook을 React함수에서만 호출(hook 또는 함수형 컴포넌트에서만 호출)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- hook은 React가 함수 컴포넌트를 렌더링하는 동안 만 호출할 수 있다. (조건문, 반복문, try, catch,) 블록내부에서 호출 불가
+
+### Context
+
+보통의 경우 부모 컴포넌트에서 자식 컴포넌트로 props를 통해 정보를 전달
+중간에 많은 컴포넌트를 거쳐야하거나, 애플리케이션의 많은 컴포넌트에서 동일한 정보가 필요한경우에는 props를 전달하는것이 번거롭고 불편할수있다
+
+context 사용전 고려해야할것
+
+1. props로 전달
+2. 컴포넌트를 추출하고 jsx를 children으로 전달하기.
