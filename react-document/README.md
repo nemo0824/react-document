@@ -59,3 +59,44 @@ react developer tools 사용해서 어떤 컴포넌트가 가장 필요한지 �
 useMemo는 호출한 함수의 결과값을 캐싱합니다.
 함숲호출결과를 캐싱해서 의존성이 변하지않는한 결과값이 변경되지않도록합니다.
 불필요하게 자식요소를 리렌더링하지않고 결과값을 넘길수있도록합니다
+
+### React Fiber tree
+
+Fiber tree
+React는 렌더링 최적화하기위해 Fiber라는 구조체를 사용
+
+Fiber는 React 컴포넌트의 작업단위
+각각 컴포넌트는 하나의 Fiber Node로 표현
+
+```
+function AComponent(){
+const [cout, setCount] = useState(0);
+const [name, setName] = useState("LIM")
+useEffect(()=> {
+console.log("effect")
+},[])
+}
+```
+
+Acomponent Fiber Node
+-> hooks
+-> Hook 1: {memoizedState: 0}
+-> Hook 2: {memoizedState: "LIM"}
+-> Hook 3: {tag: Effect, deps: []}
+
+내부적으로 linked list로 연결 순서 보장이 매우 중요.
+훅을 조건문에서 쓰면안되는 이유 => 순서가 틀어지면 React가 어떤상태인지 알 수 없게됨
+
+Fiber 의 도입 배경
+기존 virtual dom 의 문제점
+
+- 렌더링 중간에 중단 불가 (동기적 처리만가능)
+- 트리가 클수록 렌더링이 오래걸린다.
+- 렌더링 오래걸리는경우, 사용자 이벤트 블로킹 발생
+
+React 16 부터
+
+- fiber도입 -> 각작업을 작은 단위로 쪼개어 처리
+- 사용자 인터렉션, 애니메이션 등의 우선순위 기반 스케줄링 가능
+- 작업 중단 가능
+- 각 노드 독립적인 작업단위로 처리
