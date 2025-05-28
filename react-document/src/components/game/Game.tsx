@@ -4,24 +4,26 @@ import { History } from './History';
 import { calculateWinner } from '../../hook/game/calculateWinner';
 
 export const Game = () => {
-  const [squares, setSquares] = useState<(null | string)[]>(
-    Array(9).fill(null)
-  );
-  const [isValueX, setIsValueX] = useState(true);
-  const [histories, setHistories] = useState<(string | null)[][]>([]);
+  const [histories, setHistories] = useState<(string | null)[][]>([
+    Array(9).fill(null),
+  ]);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const squares = histories[currentStep];
+  const isValueX = currentStep % 2 === 0;
 
   const handleClick = (index: number) => {
     if (squares[index] || calculateWinner(squares)) return;
-    const nextSquares = squares?.slice();
+    const nextSquares = squares.slice();
     nextSquares[index] = isValueX ? 'x' : 'o';
-    setIsValueX(!isValueX);
-    setSquares(nextSquares);
-    setHistories((prev) => [...prev, nextSquares]);
+    const nextHistories = [...histories.slice(0, currentStep + 1), nextSquares];
+
+    setHistories(nextHistories);
+    setCurrentStep(nextHistories.length - 1);
   };
 
   const handleJump = (index: number) => {
-    setSquares(histories[index - 1]);
-    setIsValueX((index + 1) % 2 === 0);
+    setCurrentStep(index);
   };
 
   const winner = calculateWinner(squares);
@@ -29,7 +31,7 @@ export const Game = () => {
   const filledCount = squares.filter((square) => square !== null).length;
   if (winner) {
     status = 'winner: ' + winner;
-  } else if (filledCount === squares.length) {
+  } else if (filledCount === 9) {
     status = 'draw';
   } else {
     status = 'next player: ' + (isValueX ? 'o' : 'x');
