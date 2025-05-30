@@ -40,7 +40,6 @@ export const Game = () => {
     <div>
       <div>
         <Board
-          // setHistories={setHistories}
           handleClick={handleClick}
           status={status}
           squares={squares}
