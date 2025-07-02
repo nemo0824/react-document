@@ -1,17 +1,22 @@
-import { ThemeProvider } from './components/ThemeContext';
-import { ThemeToggleButton } from './components/ThemeToggleButton';
-import { Game } from './components/game/Game';
-import { TodoList } from './components/todoList/todoList';
+import { Title } from './components/shop/common/Title';
+import { Button } from './components/shop/common/Button';
+
 function App() {
   return (
-    <ThemeProvider>
-      {/* <div>
-        <h1>Theme Test</h1>
-        <ThemeToggleButton />
-        <Game />
-      </div> */}
-      <TodoList />
-    </ThemeProvider>
+    <div className="flex justify-center items-center">
+      <div className="w-full max-w-sm min-h-screen mx-aut shadow-sm">
+        <Title>상품 목록</Title>
+        <Button
+          onClick={() => {
+            console.log('click');
+          }}
+          size="sm"
+          style="primary"
+        >
+          구매버튼
+        </Button>
+      </div>
+    </div>
   );
 }
 
