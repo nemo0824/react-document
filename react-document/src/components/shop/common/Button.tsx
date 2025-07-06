@@ -1,17 +1,16 @@
 import React from 'react';
 
-interface PropsButton {
-  onClick: () => void;
+interface PropsButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size: 'sm' | 'md' | 'lg';
-  style: 'primary' | 'secondary' | 'outline' | 'ghost';
+  styleColor: 'primary' | 'secondary' | 'outline' | 'ghost';
   children: React.ReactNode;
 }
 
 export const Button = ({
-  onClick,
   children,
-  style = 'primary',
+  styleColor = 'primary',
   size = 'md',
+  ...rest
 }: PropsButton) => {
   const styleList = {
     primary: 'bg-blue-400 text-white hover:bg-blue-700',
@@ -26,8 +25,8 @@ export const Button = ({
   };
   return (
     <button
-      onClick={onClick}
-      className={`${sizes[size]} ${styleList[style]} rounded`}
+      {...rest}
+      className={`${sizes[size]} ${styleList[styleColor]} rounded cursor-pointer`}
     >
       {children}
     </button>
