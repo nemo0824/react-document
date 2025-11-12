@@ -8,10 +8,14 @@ interface PropsLayout {
 
 export const Layout = ({ header, children, footer }: PropsLayout) => {
   return (
-    <div className="w-full max-w-sm min-h-screen mx-aut shadow-sm relative">
+    <div className="w-full max-w-sm min-h-screen mx-auto shadow-sm relative bg-gray-100">
       <header>{header}</header>
-      <main>{children}</main>
-      <footer className="position absolute bottom-0 w-full">{footer}</footer>
+      <main className="overflow-y-auto h-[calc(100vh-56px-56px)]">
+        {children}
+      </main>
+      <footer className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-sm">
+        {footer}
+      </footer>
     </div>
   );
 };

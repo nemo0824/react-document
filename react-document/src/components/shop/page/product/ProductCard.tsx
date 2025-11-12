@@ -1,8 +1,13 @@
 import React from 'react';
-import type { BookType } from '../../../mock/bookApi';
-import { Button } from './Button';
+import type { BookType } from '../../../../mock/bookApi';
+import { Button } from '../../common/Button';
 
-export const ProductCard = ({ book }: { book: BookType }) => {
+interface ProductCardProps {
+  book: BookType;
+  onClick?: () => void;
+}
+
+export const ProductCard = ({ book, onClick }: ProductCardProps) => {
   return (
     <article className="w-full flex rounded shadow bg-white">
       <div className="w-3/4 flex flex-col px-2">
@@ -12,15 +17,11 @@ export const ProductCard = ({ book }: { book: BookType }) => {
           {book.author} | {book.publisher}
         </p>
         <div className="mt-auto">
-          <Button
-            onClick={() => {
-              console.log('click');
-            }}
-            size="sm"
-            styleColor="primary"
-          >
-            구매버튼
-          </Button>
+          {onClick && (
+            <Button onClick={onClick} size="sm" styleColor="primary">
+              구매버튼
+            </Button>
+          )}
         </div>
       </div>
       <div className="w-1/4">

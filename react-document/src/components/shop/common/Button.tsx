@@ -1,8 +1,8 @@
 import React from 'react';
 
 interface PropsButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  size: 'sm' | 'md' | 'lg';
-  styleColor: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg' | 'full';
+  styleColor?: 'primary' | 'secondary' | 'outline' | 'ghost';
   children: React.ReactNode;
 }
 
@@ -22,6 +22,7 @@ export const Button = ({
     sm: 'px-3 py-1 text-sm',
     md: 'px-4 py-2 text-base',
     lg: 'px-5 py-3 text-lg',
+    full: 'px-5 py-3 w-full',
   };
   return (
     <button
