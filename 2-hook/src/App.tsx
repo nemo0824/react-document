@@ -1,28 +1,15 @@
-class Contract {
-  name: string;
-  constructor(name: string) {
-    this.name = name;
-  }
-  sign() {
-    const capturedName = this.name;
-    setTimeout(() => console.log("서명인", capturedName), 3000);
-  }
-}
+import MyReact from "./lib/MyReact";
 
-function createContact(name: string) {
-  const sign = () => {
-    setTimeout(() => console.log("서명인", name), 3000);
+// const App = () => <>2-hook</>;
+
+function NameField() {
+  const [firstName, setFirstName] = MyReact.useName("사용자1");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstName(e.target.value);
   };
-  return { sign };
+
+  return <input value={firstName} onChange={handleChange} />;
 }
-const contrack = new Contract("사용자 1");
-contrack.sign();
-contrack.name = "사용자 2";
 
-const contract = createContact("사용자 3");
-console.log(contract, "contrack?");
-contract.sign();
-
-const App = () => <>2-hook</>;
-
-export default App;
+export default NameField;
