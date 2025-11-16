@@ -1,3 +1,4 @@
+import { useState } from "react";
 import MyReact from "./lib/MyReact";
 
 // const App = () => <>2-hook</>;
@@ -17,4 +18,36 @@ function NameField() {
   </>;
 }
 
-export default NameField;
+function Counter() {
+  MyReact.resetCursor();
+  const [counter, setCounter] = useState(0);
+  const [name, setName] = useState(localStorage.getItem("name") || "");
+
+  MyReact.useEffect(() => {
+    document.title = `count:${counter} name:${name}`;
+    console.log("useEffect1 실행됨");
+  }, [counter, name]);
+
+  MyReact.useEffect(() => {
+    localStorage.setItem("name", name);
+    console.log("useEffect2 실행");
+  }, [name]);
+
+  console.log("counter 컴포넌트 렌더링 ");
+
+  return (
+    <>
+      <button onClick={() => setCounter((counter) => counter + 1)}>
+        더하기 +
+      </button>
+      <input
+        value={name}
+        onChange={(e) => {
+          setName(e.target.value);
+        }}
+      ></input>
+    </>
+  );
+}
+
+export default () => <Counter />;
