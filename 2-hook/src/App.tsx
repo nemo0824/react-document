@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MyReact from "./lib/MyReact";
+import { Context } from "./components/Context";
 
 // const App = () => <>2-hook</>;
 
@@ -26,6 +27,12 @@ function Counter() {
   MyReact.useEffect(() => {
     document.title = `count:${counter} name:${name}`;
     console.log("useEffect1 실행됨");
+
+    return function cleanUp() {
+      document.title = "";
+
+      console.log("effect1 cleanup");
+    };
   }, [counter, name]);
 
   MyReact.useEffect(() => {
@@ -50,4 +57,22 @@ function Counter() {
   );
 }
 
-export default () => <Counter />;
+export default function App() {
+  // const [mounted, setMounted] = useState(false);
+
+  // const handleToggle = () => {
+  //   const nextMounted = !mounted;
+  //   if (!nextMounted) {
+  //     MyReact.cleanUpEffects();
+  //   }
+  //   setMounted(nextMounted);
+  // };
+
+  // return (
+  //   <>
+  //     <button onClick={handleToggle}>컴포넌트 토글</button>
+  //     {mounted && <Counter />}
+  //   </>
+  // );
+  return <Context />;
+}
